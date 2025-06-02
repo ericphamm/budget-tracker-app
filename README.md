@@ -78,7 +78,3 @@ Easily extendable with unit/integration tests
 
 This project is open-sourced under the MIT license.
 
-🔹 GitHub “About” Section
-
-Personal Budget Tracker – React + Spring BootA full-stack app to track income/expenses with filtering, validation, and CRUD support. Built using React, Tailwind, and Spring Boot with a focus on clean code and testable components.
-
