@@ -1,72 +1,96 @@
-# 💰 Budget Tracker (Full-Stack App with Microservices)
+# Budget Tracker App
 
-This is a full-stack personal finance app that helps users track income, expenses, and view financial summaries — built with **React (Vite + Tailwind)** for the frontend and **Spring Boot (Java)** microservices for the backend. Data is stored in **PostgreSQL**, and the services communicate via **REST (WebClient)**.
+A full-stack **Budget Tracker** web application built with **Java (Spring Boot)** and **React**.  
+This project allows users to manage income and expenses, visualize totals, and filter transactions.
+
+---
+
+## 🛠 Technologies Used
+
+### Backend:
+- Java 17+
+- Spring Boot
+- Spring Data JPA (Hibernate)
+- PostgreSQL
+- REST API
+- WebClient (service-to-service communication)
+- Maven
+- Docker (optional)
+- Swagger/OpenAPI (planned)
+- JUnit (planned)
+
+### Frontend:
+- React (Vite)
+- Tailwind CSS
+- Lucide React icons
+- Fetch API
+
+---
+
+## 🧱 Architecture
+
+- **Monorepo-style microservices**:
+  - `transaction-service`: Handles income/expense transaction data
+  - `report-service`: Fetches income, expense, and balance totals from transaction-service using WebClient
+
+- Frontend (`vite + react`) runs separately and connects via REST.
 
 ---
 
 ## ✨ Features
 
-### ✅ Frontend (React + Tailwind)
-- Responsive design and clean UI
-- Add, delete, and filter transactions by:
-  - Search keyword
-  - Min/max amount
-  - Transaction type (income / expense)
-- View:
-  - Total income / expense / balance (fetched from backend)
-- Interactive form with two toggle buttons for transaction type
-- Pagination support
-- Nice icons and layout using `lucide-react`
-
-### 🧩 Backend (Spring Boot Microservices)
-
-#### `transaction-service`
-- REST API to manage transactions
-- Filtering and pagination
-- Validation and error handling
-- Connects to PostgreSQL
-- Exposes data for other services
-
-#### `report-service`
-- Aggregates total income, expenses, and balance
-- Communicates with `transaction-service` using **Spring WebClient**
-- Exposes `/report/income`, `/report/expense`, and `/report/balance`
+- Add, delete, and filter transactions
+- View total income, expense, and balance
+- Pagination and search
+- Type-based filters (income, expense)
+- Clean UI with Tailwind
+- Microservice architecture (transaction-service, report-service)
+- Service-to-service communication using WebClient
 
 ---
 
-## ⚙️ Tech Stack
+## 📸 Screenshots
 
-| Layer       | Technology                 |
-|-------------|----------------------------|
-| Frontend    | React, Vite, Tailwind CSS  |
-| Backend     | Spring Boot (Java 17+)     |
-| DB          | PostgreSQL                 |
-| Communication | REST, WebClient (Reactive) |
-| Tools       | IntelliJ, Postman, VS Code |
-| API Format  | JSON                       |
+_coming soon..._
 
 ---
 
-## 🧪 How to Run the Project
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Java 17+
+- Node.js + npm
+- PostgreSQL
+- Maven
+
+---
 
 ### Backend
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/your-username/budget-tracker-microservices.git
-   cd budget-tracker-microservices
-   ```
+1. **Clone the repo**:
 
-2. Start PostgreSQL and update `application.properties` (or use default values).
+```bash
+git clone https://github.com/ericphamm/budget-tracker-app.git
+cd budget-tracker-app
+```
 
-3. Run each service:
-   ```bash
-   cd transaction-service
-   ./mvnw spring-boot:run
+2. **Set up PostgreSQL**:
 
-   cd ../report-service
-   ./mvnw spring-boot:run
-   ```
+- Create a database called `budget_db`
+- Configure DB credentials in `application.properties`
+
+3. **Run the services**:
+
+```bash
+cd transaction-service
+./mvnw spring-boot:run
+
+cd ../report-service
+./mvnw spring-boot:run
+```
+
+---
 
 ### Frontend
 
@@ -76,48 +100,41 @@ npm install
 npm run dev
 ```
 
-App runs at: `http://localhost:5173`  
-API runs at: `http://localhost:8080` and `http://localhost:8081`
+The app should now run at: `http://localhost:5173`
 
 ---
 
-## 📦 Project Structure
+## 🧪 Coming Soon
+
+- Swagger UI for API docs (`/swagger-ui.html`)
+- JUnit tests
+- Docker containers for each service
+- Centralized configuration
+- Auth & security (optional)
+
+---
+
+## 📂 Repository Structure
 
 ```
-budget-tracker-microservices/
-│
-├── transaction-service/      # Handles transaction data
-├── report-service/           # Aggregates totals using WebClient
-├── frontend/                 # React + Tailwind frontend
-│
+budget-tracker-app/
+├── transaction-service/
+├── report-service/
+├── frontend/ (React)
 └── README.md
 ```
 
 ---
 
-## 🔒 Next Features (Planned)
-
-- Docker Compose for containerized setup
-- Swagger/OpenAPI for API documentation
-- Add `category-service` to allow assigning categories per transaction
-- Basic unit + integration tests
-- Optional: user authentication
-
----
-
-## 📸 Screenshots
-
-*Include screenshots of the app UI*
-
----
-
 ## 👨‍💻 Author
 
-- 👤 **Eric Pham (Pham Quang Thang)**
-- 🌐 https://www.linkedin.com/in/ericthangpham
+**Eric Pham (Phạm Quang Thắng)**
+
+- GitHub: [@ericphamm](https://github.com/ericphamm)
+- LinkedIn: [Eric Thang Pham](https://www.linkedin.com/in/ericthangpham)
 
 ---
 
-## 📝 License
+## ⭐️ Support & Contribution
 
-This project is licensed under the MIT License.
+If you find this useful, feel free to star the repo or reach out for improvements!
