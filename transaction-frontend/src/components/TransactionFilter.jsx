@@ -6,45 +6,90 @@ function TransactionFilter({
 	minAmount,
 	setMinAmount,
 	maxAmount,
-	setMaxAmount
-  }) {
+	setMaxAmount,
+	setPage
+}) {
 	return (
-		<div className="flex flex-wrap gap-2 mb-4">
-			<input
-				type="text"
-				placeholder="Search description..."
-				value={searchText}
-				onChange={(e) => setSearchText(e.target.value)}
-				className="flex-1 min-w-[150px] border p-2 rounded"
-			/>
+		<div className="bg-white shadow rounded-xl p-4 sm:p-6 mb-4">
 
-			<select
-				value={filterType}
-				onChange={(e) => setFilterType(e.target.value)}
-				className="min-w-[100px] border p-2 rounded"
-			>
-				<option value="all">All</option>
-				<option value="income">Income</option>
-				<option value="expense">Expense</option>
-			</select>
+			<div className="flex items-center justify-between mb-4">
+			<h2 className="mr-2 text-base sm:text-lg font-medium text-gray-800 flex items-center">
+				Filters
+			</h2>
+			</div>
 
-			<input
-				type="number"
-				placeholder="Min Amount"
-				value={minAmount}
-				onChange={(e) => setMinAmount(e.target.value)}
-				className="w-[120px] border p-2 rounded"
-			/>
+			{/* search field */}
+			<div className="relative mb-4">
+				<input
+					type="text"
+					placeholder="Search transactions..."
+					value={searchText}
+					onChange={(e) => setSearchText(e.target.value)}
+					className="w-full px-4 py-2 h-14 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
+					/>
+			</div>
 
-			<input
-				type="number"
-				placeholder="Max Amount"
-				value={maxAmount}
-				onChange={(e) => setMaxAmount(e.target.value)}
-				className="w-[120px] border p-2 rounded"
-			/>
+			<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2 mb-4 pt-4">
+				<div>
+					{/* <label htmlFor="minAmount" className="block text-sm font-medium text-gray-700  mb-1">
+						Min Amount
+					</label> */}
+					<input
+						type="number"
+						placeholder="Min Amount"
+						value={minAmount}
+						onChange={(e) => setMinAmount(e.target.value)}
+						className="w-full px-4 py-2 h-14 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
+						/>
+				</div>
+				
+				<div>
+					{/* <label htmlFor="maxAmount" className="block text-sm font-medium text-gray-700  mb-1">
+						Max Amount
+					</label> */}
+					<input
+						type="number"
+						placeholder="Max Amount"
+						value={maxAmount}
+						onChange={(e) => setMaxAmount(e.target.value)}
+						className="w-full px-4 py-2 h-14 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
+						/>
+				</div>
+			</div>
+
+			{/* filter buttons */}
+			<div className="flex flex-wrap justify-center gap-2 mb-4 mt-8">
+				<button
+					onClick={() => {
+						setFilterType("all");
+						setPage(0); // ✅ reset pagination
+					}}
+					className={`px-5 sm:px-10 py-2 h-14 rounded-lg text-sm font-medium transition-colors ${filterType === "all" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
+				>
+					All
+				</button>
+
+				<button
+					onClick={() => {
+						setFilterType("INCOME");
+						setPage(0);
+					}}
+					className={`px-5 sm:px-10 py-2 h-14 rounded-lg text-sm font-medium transition-colors ${filterType === "INCOME" ? "bg-green-500 text-white" : "bg-gray-300"}`}
+				>
+					Income
+				</button>
+
+				<button
+					onClick={() => {
+						setFilterType("EXPENSE");
+						setPage(0);
+					}}
+					className={`px-5 sm:px-10 py-2 h-14 rounded-lg text-sm font-medium transition-colors ${filterType === "EXPENSE" ? "bg-red-500 text-white" : "bg-gray-300"}`}
+				>
+					Expense
+				</button>
+			</div>
 		</div>
 	);
 }
-
 export default TransactionFilter;

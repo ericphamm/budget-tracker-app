@@ -22,6 +22,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     List<Transaction> findByDescriptionContainingIgnoreCaseAndAmountBetweenAndTypeOrderByTimestampDesc(String keyword, double min, double max, TransactionType type);
 
+    Page<Transaction> findByDescriptionContainingIgnoreCaseAndAmountBetween(
+            String keyword, double min, double max, Pageable pageable);
+
+    Page<Transaction> findByDescriptionContainingIgnoreCaseAndAmountBetweenAndType(
+            String keyword, double min, double max, TransactionType type, Pageable pageable);
 
     Page<Transaction> findAll(Pageable pageable);
 
@@ -29,5 +34,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     Double getTotalAmount();
 
     List<Transaction> findByType(TransactionType type);
+
+    @Query("SELECT SUM(t.amount) FROM Transaction t WHERE t.type = 'INCOME'")
+    Double getTotalIncome();
+
+    @Query("SELECT SUM(t.amount) FROM Transaction t WHERE t.type = 'EXPENSE'")
+    Double getTotalExpense();
 
 }

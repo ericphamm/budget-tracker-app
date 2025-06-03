@@ -69,6 +69,18 @@ public class TransactionService {
                 keyword, min, max);
     }
 
+    public Page<Transaction> filterCombinedPaginated(String keyword, Double min, Double max, TransactionType type, Pageable pageable) {
+        if (keyword == null) keyword = "";
+        if (min == null) min = 0.0;
+        if (max == null) max = Double.MAX_VALUE;
+
+        if (type != null) {
+            return transactionRepository.findByDescriptionContainingIgnoreCaseAndAmountBetweenAndType(keyword, min, max, type, pageable);
+        }
+
+        return transactionRepository.findByDescriptionContainingIgnoreCaseAndAmountBetween(keyword, min, max, pageable);
+    }
+
     public Page<Transaction> getPaginatedTransactions(Pageable pageable) {
         return transactionRepository.findAll(pageable);
     }
@@ -83,6 +95,14 @@ public class TransactionService {
 
     public List<Transaction> getAllSortedByTimestamp() {
         return transactionRepository.findAllByOrderByTimestampDesc();
+    }
+
+    public Double getTotalIncome() {
+        return transactionRepository.getTotalIncome();
+    }
+
+    public Double getTotalExpense() {
+        return transactionRepository.getTotalExpense();
     }
 
 }

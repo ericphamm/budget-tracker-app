@@ -6,6 +6,7 @@ import ericphamm.transaction_service.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -62,10 +63,21 @@ public class TransactionController {
         return transactionService.filterByAmountRange(min, max);
     }
 
+//    @GetMapping("/paginated")
+//    public Page<Transaction> getPaginatedTransactions(
+//            @PageableDefault(size = 10, sort = "timestamp") Pageable pageable) {
+//        return transactionService.getPaginatedTransactions(pageable);
+//    }
+
     @GetMapping("/paginated")
     public Page<Transaction> getPaginatedTransactions(
-            @PageableDefault(size = 10, sort = "timestamp") Pageable pageable) {
-        return transactionService.getPaginatedTransactions(pageable);
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Double min,
+            @RequestParam(required = false) Double max,
+            @RequestParam(required = false) TransactionType type,
+            @PageableDefault(size = 10, sort = "timestamp", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        return transactionService.filterCombinedPaginated(keyword, min, max, type, pageable);
     }
 
     @GetMapping("/total")
@@ -87,6 +99,16 @@ public class TransactionController {
     public ResponseEntity<List<Transaction>> findByType(@RequestParam TransactionType type) {
         List<Transaction> transactions = transactionService.findByType(type);
         return ResponseEntity.ok(transactions);
+    }
+
+    @GetMapping("/total/income")
+    public ResponseEntity<Double> getTotalIncome() {
+        return ResponseEntity.ok(transactionService.getTotalIncome());
+    }
+
+    @GetMapping("/total/expense")
+    public ResponseEntity<Double> getTotalExpenses() {
+        return ResponseEntity.ok(transactionService.getTotalExpense());
     }
 
 }
