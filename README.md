@@ -106,3 +106,15 @@ Make sure PostgreSQL is running on port `5432`.
 ## 📜 License
 
 This project is open source and available under the [MIT License](LICENSE).
+
+## 📜 Screenshots:
+
+<img width="682" alt="1" src="https://github.com/user-attachments/assets/bca53a10-d5a5-43db-b7e8-5c7bd5f86e15" />
+<img width="682" alt="2" src="https://github.com/user-attachments/assets/d7bf79d1-5502-401b-b0fb-30fb0ae6599e" />
+
+
+
+
+
+
+
