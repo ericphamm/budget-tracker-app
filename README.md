@@ -1,80 +1,123 @@
-Budget Tracker (React + Spring Boot)
+# 💰 Budget Tracker (Full-Stack App with Microservices)
 
-A full-stack personal budget tracking application built with React, Tailwind CSS, and Spring Boot. It allows users to add, delete, and view income/expense transactions, with filtering by description or amount range.
+This is a full-stack personal finance app that helps users track income, expenses, and view financial summaries — built with **React (Vite + Tailwind)** for the frontend and **Spring Boot (Java)** microservices for the backend. Data is stored in **PostgreSQL**, and the services communicate via **REST (WebClient)**.
 
-💡 Features
+---
 
-💰 Add, view, and delete income/expense transactions
+## ✨ Features
 
-🔍 Filter transactions by description or amount range
+### ✅ Frontend (React + Tailwind)
+- Responsive design and clean UI
+- Add, delete, and filter transactions by:
+  - Search keyword
+  - Min/max amount
+  - Transaction type (income / expense)
+- View:
+  - Total income / expense / balance (fetched from backend)
+- Interactive form with two toggle buttons for transaction type
+- Pagination support
+- Nice icons and layout using `lucide-react`
 
-📊 Real-time total balance summary
+### 🧩 Backend (Spring Boot Microservices)
 
-🌐 RESTful API with Spring Boot
+#### `transaction-service`
+- REST API to manage transactions
+- Filtering and pagination
+- Validation and error handling
+- Connects to PostgreSQL
+- Exposes data for other services
 
-🧰 Input validation and form warnings
+#### `report-service`
+- Aggregates total income, expenses, and balance
+- Communicates with `transaction-service` using **Spring WebClient**
+- Exposes `/report/income`, `/report/expense`, and `/report/balance`
 
-🎨 Modern UI using Tailwind CSS
+---
 
-🧰 Built with testing and maintainability in mind
+## ⚙️ Tech Stack
 
-🖼️ Screenshots
+| Layer       | Technology                 |
+|-------------|----------------------------|
+| Frontend    | React, Vite, Tailwind CSS  |
+| Backend     | Spring Boot (Java 17+)     |
+| DB          | PostgreSQL                 |
+| Communication | REST, WebClient (Reactive) |
+| Tools       | IntelliJ, Postman, VS Code |
+| API Format  | JSON                       |
 
-Include screenshots here if available.
+---
 
-🛠️ Tech Stack
+## 🧪 How to Run the Project
 
-Frontend:
+### Backend
 
-React
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/your-username/budget-tracker-microservices.git
+   cd budget-tracker-microservices
+   ```
 
-Tailwind CSS
+2. Start PostgreSQL and update `application.properties` (or use default values).
 
-Vite
+3. Run each service:
+   ```bash
+   cd transaction-service
+   ./mvnw spring-boot:run
 
-Backend:
+   cd ../report-service
+   ./mvnw spring-boot:run
+   ```
 
-Spring Boot (Java)
+### Frontend
 
-PostgreSQL (or H2 for local testing)
-
-RESTful APIs
-
-Bean validation (@NotBlank, @Positive)
-
-📁 Project Structure
-
-frontend/
-  └── React app (Vite + Tailwind)
-backend/
-  └── Spring Boot API (Java)
-
-🚀 Getting Started
-
-Backend
-
-cd backend
-./mvnw spring-boot:run
-
-Frontend
-
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
-Make sure backend runs on http://localhost:8080 and frontend on http://localhost:5173
+App runs at: `http://localhost:5173`  
+API runs at: `http://localhost:8080` and `http://localhost:8081`
 
-✅ Testing Support
+---
 
-The project was built with testability in mind:
+## 📦 Project Structure
 
-Backend supports validation and edge case handling
+```
+budget-tracker-microservices/
+│
+├── transaction-service/      # Handles transaction data
+├── report-service/           # Aggregates totals using WebClient
+├── frontend/                 # React + Tailwind frontend
+│
+└── README.md
+```
 
-Frontend includes form validation and error states
+---
 
-Easily extendable with unit/integration tests
+## 🔒 Next Features (Planned)
 
-📜 License
+- Docker Compose for containerized setup
+- Swagger/OpenAPI for API documentation
+- Add `category-service` to allow assigning categories per transaction
+- Basic unit + integration tests
+- Optional: user authentication
 
-This project is open-sourced under the MIT license.
+---
 
+## 📸 Screenshots
+
+*Include screenshots of the app UI*
+
+---
+
+## 👨‍💻 Author
+
+- 👤 **Eric Pham (Pham Quang Thang)**
+- 🌐 https://www.linkedin.com/in/ericthangpham
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License.
