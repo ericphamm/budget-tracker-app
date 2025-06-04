@@ -13,12 +13,29 @@ This project is designed to demonstrate professional-level software development 
 - Pagination, filtering, and keyword search
 - Responsive and accessible UI
 - Transaction type icons and color-coded styling
+- Backend connection via REST API
 
 ### ✅ Backend (Spring Boot - Microservices)
 **Transaction Service**
+- Built with **Spring Boot 3.5**
+- Data stored in **PostgreSQL**
+- RESTful API with:
+  - ✅ Create a transaction (POST)
+  - ✅ Get all transactions (GET)
+  - ✅ Delete transaction by ID (DELETE)
 - Create, update, delete, and filter transactions
 - Paginated endpoints
+- Input validation using **Jakarta Validation API**
+- Service layer for clean separation of concerns
+- Repository layer with **Spring Data JPA**
 - Custom queries and validation
+- Test coverage using:
+  - ✅ JUnit 5
+  - ✅ Spring Boot Test + MockMvc
+  - ✅ Unit tests for controller (GET, POST, DELETE)
+- Tests can be run via `./mvnw test`
+- Follows REST standards (returns 201 for POST, 200 for GET/DELETE)
+
 
 **Report Service**
 - Built with WebFlux
