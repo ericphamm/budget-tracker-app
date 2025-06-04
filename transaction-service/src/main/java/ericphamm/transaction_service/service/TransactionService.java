@@ -105,4 +105,11 @@ public class TransactionService {
         return transactionRepository.getTotalExpense();
     }
 
+    //for unit tests
+    public double calculateTotalAmount(List<Transaction> transactions) {
+        return transactions.stream()
+                .mapToDouble(Transaction::getAmount)
+                .sum();
+    }
+
 }
