@@ -27,6 +27,42 @@ This project is designed to demonstrate professional-level software development 
 
 ---
 
+### 🐳 Docker (Planned)
+
+Both backend and frontend will be dockerized and run using Docker Compose.
+
+---
+
+### 📘 API Docs (Planned)
+
+- Swagger/OpenAPI will be added with `springdoc-openapi-ui`.
+
+---
+
+### 🧪 Testing
+
+Unit + integration tests written using:
+
+```java
+@WebMvcTest(TransactionController.class)
+class TransactionControllerTest {
+    @Test
+    void testGetAllTransactions_returnsOk() { ... }
+
+    @Test
+    void testCreateTransaction_returnsCreated() { ... }
+
+    @Test
+    void testDeleteTransaction_returnsOk() { ... }
+}
+```
+
+✔️ Status codes validated  
+✔️ MockMvc used for simulating HTTP requests  
+✔️ Learned to catch subtle issues like wrong HTTP status (e.g., using 200 instead of 201 for POST)
+
+---
+
 ## 📂 Project Structure
 
 ```
