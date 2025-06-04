@@ -32,7 +32,8 @@ This project is designed to demonstrate professional-level software development 
 - Test coverage using:
   - ✅ JUnit 5
   - ✅ Spring Boot Test + MockMvc
-  - ✅ Unit tests for controller (GET, POST, DELETE)
+  - ✅ Integration tests for controller using MockMvc (GET, POST, DELETE)
+  - ✅ Unit tests for service layer methods (filtering, search, total amount)
 - Tests can be run via `./mvnw test`
 - Follows REST standards (returns 201 for POST, 200 for GET/DELETE)
 
@@ -55,10 +56,26 @@ Both backend and frontend will be dockerized and run using Docker Compose.
 - Swagger/OpenAPI will be added with `springdoc-openapi-ui`.
 
 ---
+#
+## 🧪 Testing
 
-### 🧪 Testing
+This project includes both **unit tests** and **integration tests** to ensure correctness and reliability:
 
-Unit + integration tests written using:
+### ✅ Unit Tests
+- Written using **JUnit 5** and **Mockito**
+- Tests the logic of individual service methods in isolation
+- Mocked the `TransactionRepository` to test:
+  - `filterByAmountRange()`
+  - `searchTransactions()`
+  - `calculateTotalAmount()` (custom utility method)
+
+### 🌐 Integration Tests
+- Written using **MockMvc** and `@WebMvcTest`
+- Tests the `TransactionController` endpoints:
+  - GET `/transactions`
+  - POST `/transactions`
+  - DELETE `/transactions/{id}`
+- Simulates real HTTP requests and checks response status and payload
 
 ```java
 @WebMvcTest(TransactionController.class)
@@ -78,6 +95,14 @@ class TransactionControllerTest {
 ✔️ MockMvc used for simulating HTTP requests  
 ✔️ Learned to catch subtle issues like wrong HTTP status (e.g., using 200 instead of 201 for POST)
 
+All tests are executed using Maven:
+```bash
+./mvnw test
+```
+or specific test methods:
+```bash
+./mvnw -Dtest=TransactionServiceTest#methodName test
+```
 ---
 
 ## 📂 Project Structure
