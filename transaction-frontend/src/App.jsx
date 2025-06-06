@@ -39,7 +39,7 @@ function App() {
       params.append("sort", "timestamp,desc");
 
       const response = await fetch(
-        `http://localhost:8080/transactions/paginated?${params.toString()}`
+        `${TRANSACTION_SERVICE_URL}/transactions/paginated?${params.toString()}` // CHANGED FOR PRODUCTION
       );
       const data = await response.json();
 
@@ -54,9 +54,9 @@ function App() {
   const fetchSummary = useCallback(async () => {
     try {
       const [incomeRes, expenseRes, balanceRes] = await Promise.all([
-        fetch("http://localhost:8081/report/income"),
-        fetch("http://localhost:8081/report/expense"),
-        fetch("http://localhost:8081/report/balance"),
+        fetch(`${REPORT_SERVICE_URL}/report/income`), // CHANGED FOR PRODUCTION
+        fetch(`${REPORT_SERVICE_URL}/report/expense`), // CHANGED FOR PRODUCTION
+        fetch(`${REPORT_SERVICE_URL}/report/balance`), // CHANGED FOR PRODUCTION
       ]);
 
       const [income, expense, balance] = await Promise.all([
@@ -80,7 +80,7 @@ function App() {
   // After creating a transaction → fetch again
   const handleAddTransaction = async (newTransaction) => {
     try {
-      const response = await fetch("http://localhost:8080/transactions", {
+      const response = await fetch(`${TRANSACTION_SERVICE_URL}/transactions`, { // CHANGED FOR PRODUCTION
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newTransaction),
@@ -98,7 +98,7 @@ function App() {
   // After deleting a transaction → fetch again
   const handleDeleteTransaction = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8080/transactions/${id}`, {
+      const response = await fetch(`${TRANSACTION_SERVICE_URL}/transactions/${id}`, { // CHANGED FOR PRODUCTION
         method: "DELETE",
       });
 
