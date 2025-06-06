@@ -17,7 +17,7 @@ function TransactionListItem({ tx, onDelete }) {
 	}).format(tx.amount);
 
 	return (
-		<li className="flex items-center justify-between pt-4 pb-4 border-b border-gray-100">
+		<li className="flex items-center justify-between pt-4 pb-4 border-b last:border-b-0 border-gray-100">
 			{/* Left: Icon + Description + Date */}
 			<div className="flex items-center gap-4">
 				<div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${bgColor}`}>
