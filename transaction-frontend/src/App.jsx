@@ -7,6 +7,9 @@ import TransactionSummary from "./components/TransactionSummary";
 import TransactionFilter from "./components/TransactionFilter";
 import Pagination from "./components/Pagination";
 
+const TRANSACTION_SERVICE_URL = import.meta.env.VITE_TRANSACTION_SERVICE_API_URL;
+const REPORT_SERVICE_URL = import.meta.env.VITE_REPORT_SERVICE_API_URL;
+
 function App() {
   const [transactions, setTransactions] = useState([]);
   const [searchText, setSearchText] = useState("");
