@@ -1,5 +1,6 @@
 package ericphamm.reportservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -7,10 +8,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
+    // Inject the environment variable
+    @Value("${TRANSACTION_SERVICE_URL}")
+    private String transactionServiceUrl;
+
     @Bean
     public WebClient webClient() {
         return WebClient.builder()
-                .baseUrl("http://transaction-service:8080")
+                .baseUrl(transactionServiceUrl) // Use the injected variable here
                 .build();
     }
 }
