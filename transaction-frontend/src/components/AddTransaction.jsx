@@ -5,7 +5,7 @@ function AddTransaction({ onAdd }) {
 	const [showForm, setShowForm] = useState(false);
 
 	return (
-		<div className="bg-white rounded-xl shadow mb-6 overflow-hidden transition-all duration-300">
+		<div className="bg-white rounded-xl shadow mb-4 overflow-hidden transition-all duration-300">
 			{/* Toggle button */}
 			<button
 				onClick={() => setShowForm(!showForm)}
