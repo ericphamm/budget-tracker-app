@@ -25,7 +25,7 @@ function TransactionFilter({
 					placeholder="Search transactions..."
 					value={searchText}
 					onChange={(e) => setSearchText(e.target.value)}
-					className="w-full px-4 py-2 h-14 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+					className="w-full px-4 py-2 h-12 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
 					/>
 			</div>
 
@@ -39,7 +39,7 @@ function TransactionFilter({
 						placeholder="Min Amount"
 						value={minAmount}
 						onChange={(e) => setMinAmount(e.target.value)}
-						className="w-full px-4 py-2 h-14 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+						className="w-full px-4 py-2 h-12 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
 						/>
 				</div>
 				
@@ -52,7 +52,7 @@ function TransactionFilter({
 						placeholder="Max Amount"
 						value={maxAmount}
 						onChange={(e) => setMaxAmount(e.target.value)}
-						className="w-full px-4 py-2 h-14 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+						className="w-full px-4 py-2 h-12 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
 						/>
 				</div>
 			</div>
@@ -64,7 +64,7 @@ function TransactionFilter({
 						setFilterType("all");
 						setPage(0); // ✅ reset pagination
 					}}
-					className={`px-5 sm:px-10 py-2 h-14 rounded-lg text-sm font-medium transition-colors ${filterType === "all" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
+					className={`px-5 sm:px-10 py-2 h-12 rounded-lg text-sm font-medium transition-colors ${filterType === "all" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
 				>
 					All
 				</button>
@@ -74,7 +74,7 @@ function TransactionFilter({
 						setFilterType("INCOME");
 						setPage(0);
 					}}
-					className={`px-5 sm:px-10 py-2 h-14 rounded-lg text-sm font-medium transition-colors ${filterType === "INCOME" ? "bg-green-500 text-white" : "bg-gray-300"}`}
+					className={`px-5 sm:px-10 py-2 h-12 rounded-lg text-sm font-medium transition-colors ${filterType === "INCOME" ? "bg-green-500 text-white" : "bg-gray-300"}`}
 				>
 					Income
 				</button>
@@ -84,7 +84,7 @@ function TransactionFilter({
 						setFilterType("EXPENSE");
 						setPage(0);
 					}}
-					className={`px-5 sm:px-10 py-2 h-14 rounded-lg text-sm font-medium transition-colors ${filterType === "EXPENSE" ? "bg-red-500 text-white" : "bg-gray-300"}`}
+					className={`px-5 sm:px-10 py-2 h-12 rounded-lg text-sm font-medium transition-colors ${filterType === "EXPENSE" ? "bg-red-500 text-white" : "bg-gray-300"}`}
 				>
 					Expense
 				</button>

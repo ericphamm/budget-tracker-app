@@ -63,7 +63,7 @@ function TransactionForm({ onAdd }) {
 					placeholder="What's this transaction for?"
 					value={description}
 					onChange={(e) => setDescription(e.target.value)}
-					className="w-full px-4 py-2 h-14 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+					className="w-full px-4 py-2 h-12 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 					required
 				/>
 			</div>
@@ -74,7 +74,7 @@ function TransactionForm({ onAdd }) {
 				<input
 					type="number"
 					placeholder="0.00"
-					className="w-full px-4 py-2 h-14 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+					className="w-full px-4 py-2 h-12 rounded-lg border border-gray-300 bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 					value={amount}
 					onChange={(e) => setAmount(e.target.value)}
 					min="0.01" // HTML validation
@@ -86,7 +86,7 @@ function TransactionForm({ onAdd }) {
 				<label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-1 text-left">
 					Transaction Type
 				</label>
-			<div className="flex gap-6 h-14">
+			<div className="flex gap-6 h-12">
 				<button
 					type="button"
 					onClick={() => setType("income")}
@@ -113,7 +113,7 @@ function TransactionForm({ onAdd }) {
 			
 			<button
 				type="submit"
-				className="w-full h-14 py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+				className="w-full h-12 py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
 			>
 				Add Transaction
 			</button>
