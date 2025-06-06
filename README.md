@@ -45,9 +45,127 @@ This project is designed to demonstrate professional-level software development 
 
 ---
 
-### 🐳 Docker (Planned)
+## 📁 Project Structure
 
-Both backend and frontend will be dockerized and run using Docker Compose.
+```
+budget-tracker-app/
+├── transaction-service/         # Handles transactions and database logic
+│   ├── Dockerfile
+│   └── src/
+├── report-service/              # Calls transaction-service to compute reports
+│   ├── Dockerfile
+│   └── src/
+├── transaction-frontend/        # React + Vite frontend
+│   ├── Dockerfile
+│   └── src/
+├── docker-compose.yml           # Defines and runs all services
+└── README.md
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Docker + Docker Compose
+- Java 17 (for local dev without Docker)
+- Node.js + npm (for frontend dev)
+
+---
+
+## 🐳 Run With Docker (Recommended)
+
+This runs the full stack using Docker.
+
+### 1. Build and start all services:
+
+```bash
+docker compose up --build
+```
+
+### 2. Services
+
+| Service              | Port     | URL                          |
+|----------------------|----------|-------------------------------|
+| Transaction Service  | `8080`   | http://localhost:8080        |
+| Report Service       | `8081`   | http://localhost:8081        |
+| Frontend             | `5173`   | http://localhost:5173        |
+| PostgreSQL DB        | `5432`   | Used internally via Docker   |
+
+### 3. Stop and clean up:
+
+```bash
+docker compose down -v --remove-orphans
+```
+
+---
+
+## ⚙️ Run Without Docker (Dev only)
+
+### Backend
+
+1. Start PostgreSQL locally (or Docker).
+2. Update DB connection in `application.properties`.
+3. Run both Spring Boot apps from IntelliJ or with:
+
+```bash
+cd transaction-service
+mvn spring-boot:run
+# In another terminal:
+cd ../report-service
+mvn spring-boot:run
+```
+
+### Frontend
+
+```bash
+cd transaction-frontend
+npm install
+npm run dev
+```
+
+---
+
+## 🛠 Technologies
+
+- **Backend:** Spring Boot, Spring Data JPA, WebClient (Reactive)
+- **Frontend:** React, Vite, Tailwind CSS
+- **Database:** PostgreSQL
+- **Build Tools:** Maven, Docker, Docker Compose
+
+---
+
+## 📦 Environment Variables (in Docker)
+
+### `transaction-service`
+
+- `SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/transactiondb`
+- `SPRING_DATASOURCE_USERNAME=postgres`
+- `SPRING_DATASOURCE_PASSWORD=your_secure_password`
+
+### `report-service`
+
+- No `.env` needed. Communicates with `transaction-service` via `http://transaction-service:8080`.
+
+### `transaction-frontend`
+
+- `VITE_TRANSACTION_SERVICE_API_URL=http://localhost:8080`
+- `VITE_REPORT_SERVICE_API_URL=http://localhost:8081`
+
+---
+
+## 🧼 Useful Commands
+
+```bash
+# Rebuild everything from scratch
+docker compose down -v --remove-orphans
+docker compose build
+docker compose up
+
+# Prune volumes (be careful: deletes DB data!)
+docker volume prune
+```
 
 ---
 
@@ -105,56 +223,6 @@ or specific test methods:
 ```
 ---
 
-## 📂 Project Structure
-
-```
-budget-tracker-app/
-│
-├── transaction-service/       → Spring Boot REST API for managing transactions
-├── report-service/            → Spring WebFlux service for financial reports
-└── frontend/                  → React + Tailwind CSS SPA (Vite)
-```
-
----
-
-## 📦 Tech Stack
-
-| Layer           | Tech                                |
-|----------------|--------------------------------------|
-| Frontend        | React, Vite, Tailwind CSS            |
-| Backend         | Spring Boot, Spring WebFlux          |
-| Communication   | REST, WebClient                      |
-| Database        | PostgreSQL                           |
-| Build Tools     | Maven                                |
-| Deployment      | Docker (planned)                     |
-
----
-
-## 🚀 Setup Instructions
-
-### 🖥️ Frontend (React)
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-### ☕ Backend - Transaction Service
-```bash
-cd transaction-service
-./mvnw spring-boot:run
-```
-
-### ☕ Backend - Report Service (WebFlux)
-```bash
-cd report-service
-./mvnw spring-boot:run
-```
-
-Make sure PostgreSQL is running on port `5432`.
-
----
-
 ## 📌 Author
 
 **Eric Pham**  
@@ -174,7 +242,7 @@ Make sure PostgreSQL is running on port `5432`.
 - ✅ Swagger/OpenAPI documentation
 - ✅ Service-to-service communication (WebClient)
 - ✅ Full-featured frontend UI/UX
-- ⏳ Docker support for all services
+- ✅  Docker support for all services
 - ⏳ User authentication (Spring Security)
 - ⏳ Category service (new microservice)
 - ⏳ CI/CD deployment

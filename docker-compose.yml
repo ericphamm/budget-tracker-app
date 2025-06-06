@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  db:
+    image: postgres:16-alpine # Using a lightweight PostgreSQL image
+    restart: always
+    environment:
+      POSTGRES_DB: transactiondb # Matches your application.properties
+      POSTGRES_USER: postgres # Matches your application.properties
+      POSTGRES_PASSWORD: your_secure_password # <--- ADD THIS LINE!
+    volumes:
+      - db_data:/var/lib/postgresql/data # Persistent storage for DB data
+      # If you have initial SQL scripts, you can mount them here:
+      # - ./db_init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432" # Expose DB port to host (optional, for local tools like pgAdmin)
+    networks:
+      - app_network
+
+  # Transaction Service
+  transaction-service:
+    build:
+      context: ./transaction-service # Path to your transaction-service directory
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080" # Map host port 8080 to container port 8080
+    environment:
+      # CRITICAL: Update database URL to use the 'db' service name
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transactiondb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: your_secure_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update # Matches your application.properties
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+      SERVER_PORT: 8080 # Explicitly set, though it's the default
+    depends_on:
+      - db # Ensures db starts before this microservice
+    networks:
+      - app_network
+
+  # Report Service
+  report-service:
+    build:
+      context: ./report-service # Path to your report-service directory
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081" # Map host port 8081 to container port 8081
+    environment:
+      SERVER_PORT: 8081 # Explicitly set, as per your application.properties
+      # CRITICAL: Update WebClientConfig.java to point to the 'transaction-service'
+      # baseUrl("http://transaction-service:8080")
+      # You might also want to pass this via environment variable if it's dynamic
+      # Example: TRANSACTION_SERVICE_URL: http://transaction-service:8080
+    depends_on:
+      - db # Also depends on DB if it directly or indirectly uses it
+      - transaction-service # Depends on transaction-service for its API calls
+    networks:
+      - app_network
+
+  # Frontend Application
+  frontend:
+    build:
+      context: ./transaction-frontend # Path to your transaction-frontend directory
+      dockerfile: Dockerfile
+    ports:
+      - "5173:80" # Map host port 5173 (Vite dev default) to container's Nginx port 80
+      # You can change 5173 to 80 if you want it on host port 80: "80:80"
+    environment:
+      # These variables are for the client-side JavaScript, which runs in the browser.
+      # The browser will hit localhost:8080 and localhost:8081 on the host machine.
+      # So, no change needed here for browser-side calls if using mapped ports.
+      # If you were making calls from server-side rendering or a proxy,
+      # you'd use the internal Docker network names.
+      VITE_TRANSACTION_SERVICE_API_URL: http://localhost:8080
+      VITE_REPORT_SERVICE_API_URL: http://localhost:8081
+    depends_on:
+      - transaction-service # Frontend depends on microservices being up
+      - report-service
+    networks:
+      - app_network
+
+volumes:
+  db_data: # Declares the named volume for PostgreSQL data persistence
+
+networks:
+  app_network: # Defines a custom bridge network for all services to communicate
+    driver: bridge
