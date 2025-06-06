@@ -10,6 +10,17 @@ import Pagination from "./components/Pagination";
 const BASE_URL = import.meta.env.VITE_TRANSACTION_SERVICE_API_URL || 'http://localhost:8080';
 const REPORT_BASE_URL = import.meta.env.VITE_REPORT_SERVICE_API_URL || 'http://localhost:8081';
 
+// Safe JSON parser that avoids crashing on empty or invalid responses
+const parseJSONSafe = async (response, fallback = 0) => {
+  try {
+    if (response.status === 204) return fallback; // No content
+    return await response.json();
+  } catch (e) {
+    console.warn("Safe JSON parse failed:", e);
+    return fallback;
+  }
+};
+
 function App() {
   const [transactions, setTransactions] = useState([]);
   const [searchText, setSearchText] = useState("");
@@ -61,9 +72,9 @@ function App() {
       ]);
 
       const [income, expense, balance] = await Promise.all([
-        incomeRes.json(),
-        expenseRes.json(),
-        balanceRes.json(),
+        parseJSONSafe(incomeRes, 0),
+        parseJSONSafe(expenseRes, 0),
+        parseJSONSafe(balanceRes, 0),
       ]);
 
       setSummary({ income, expense, balance });
