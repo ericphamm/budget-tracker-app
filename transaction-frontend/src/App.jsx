@@ -6,7 +6,7 @@ import TransactionList from "./components/TransactionList";
 import TransactionSummary from "./components/TransactionSummary";
 import TransactionFilter from "./components/TransactionFilter";
 import Pagination from "./components/Pagination";
-import TransactionSummarySkeleton from "./components/TransactionSummarySkeleton";
+import TransactionSummarySkeleton from "./components/TransactionSummarySkeleton.jsx";
 
 const BASE_URL = import.meta.env.VITE_TRANSACTION_SERVICE_API_URL || 'http://localhost:8080';
 const REPORT_BASE_URL = import.meta.env.VITE_REPORT_SERVICE_API_URL || 'http://localhost:8081';
