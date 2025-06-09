@@ -13,8 +13,9 @@ const REPORT_BASE_URL = import.meta.env.VITE_REPORT_SERVICE_API_URL || 'http://l
 // Safe JSON parser that avoids crashing on empty or invalid responses
 const parseJSONSafe = async (response, fallback = 0) => {
   try {
-    if (response.status === 204) return fallback; // No content
-    return await response.json();
+    if (!response.ok) return fallback;
+    const text = await response.text();
+    return text ? JSON.parse(text) : fallback;
   } catch (e) {
     console.warn("Safe JSON parse failed:", e);
     return fallback;
