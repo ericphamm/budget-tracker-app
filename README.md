@@ -5,6 +5,12 @@ This project is designed to demonstrate professional-level software development 
 
 ---
 
+## 🌐 Live Demo
+
+🔗 [https://budget-tracker-app-ericpham.vercel.app](https://budget-tracker-app-ericpham.vercel.app)
+
+---
+
 ## 🌟 Features
 
 ### ✅ User Interface (React + Tailwind CSS)
@@ -133,6 +139,14 @@ npm run dev
 - **Frontend:** React, Vite, Tailwind CSS
 - **Database:** PostgreSQL
 - **Build Tools:** Maven, Docker, Docker Compose
+
+![Java](https://img.shields.io/badge/Java-17-blue)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.5.0-success)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-blue)
+![React](https://img.shields.io/badge/React-18-blue)
+![Vite](https://img.shields.io/badge/Vite-4-purple)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.2-blue)
+![Docker](https://img.shields.io/badge/Docker-Engine-blue)
 
 ---
 
