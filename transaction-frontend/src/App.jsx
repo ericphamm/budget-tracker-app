@@ -6,6 +6,7 @@ import TransactionList from "./components/TransactionList";
 import TransactionSummary from "./components/TransactionSummary";
 import TransactionFilter from "./components/TransactionFilter";
 import Pagination from "./components/Pagination";
+import TransactionSummarySkeleton from "./components/TransactionSummarySkeleton";
 
 const BASE_URL = import.meta.env.VITE_TRANSACTION_SERVICE_API_URL || 'http://localhost:8080';
 const REPORT_BASE_URL = import.meta.env.VITE_REPORT_SERVICE_API_URL || 'http://localhost:8081';
@@ -32,6 +33,7 @@ function App() {
   const [size] = useState(7);
   const [totalPages, setTotalPages] = useState(0);
   const [showForm, setShowForm] = useState(false);
+  const [isLoadingSummary, setIsLoadingSummary] = useState(true);
 
   // NEW STATE FOR SUMMARY
   const [summary, setSummary] = useState({
@@ -81,6 +83,8 @@ function App() {
       setSummary({ income, expense, balance });
     } catch (err) {
       console.error("Error fetching summary:", err);
+    } finally {
+      setIsLoadingSummary(false);
     }
   }, []);
 
@@ -128,7 +132,11 @@ function App() {
     <div className="min-h-screen bg-gray-100 text-gray-900 dark:text-white">
       <Header />
       <main className="w-full max-w-xl sm:max-w-2xl md:max-w-3xl mx-auto px-4 py-4 sm:py-6">
-        <TransactionSummary summary={summary} />
+        {isLoadingSummary ? (
+          <TransactionSummarySkeleton />
+        ) : (
+          <TransactionSummary summary={summary} />
+        )}
         <AddTransaction onAdd={handleAddTransaction} />
         <TransactionFilter
           searchText={searchText}
