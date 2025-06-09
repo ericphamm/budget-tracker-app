@@ -1,0 +1,28 @@
+# Spring Boot Profile-Specific Configuration for Production Environment
+spring:
+  datasource:
+    url: ${DATABASE_URL} # Render provides this env var for your PostgreSQL instance
+    username: ${DATABASE_USERNAME} # Render provides this env var
+    password: ${DATABASE_PASSWORD} # Render provides this env var
+    driver-class-name: org.postgresql.Driver # Standard PostgreSQL driver
+
+  # --- JPA and Hibernate Configuration ---
+  jpa:
+    hibernate:
+      # ddl-auto: 'validate' is recommended for production.
+      # It checks if the schema matches entities but does NOT make changes.
+      # Use 'none' if you manage migrations manually (e.g., with Flyway/Liquibase).
+      # NEVER 'update', 'create', or 'create-drop' in production.
+      ddl-auto: validate
+
+    # Do NOT show SQL queries in production logs for security, performance, and clutter reduction.
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false # Do NOT format SQL in production logs
+
+
+# --- CORS Configuration for Production Frontend ---
+app:
+  cors:
+    allowed-origins: https://budget-tracker-app-ericpham.vercel.app # Your live Vercel frontend URL

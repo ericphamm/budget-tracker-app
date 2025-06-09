@@ -1,0 +1,6 @@
+# report-service/src/main/resources/application.yml
+spring:
+  application:
+    name: reportservice # Keep the application name here, it's not profile-specific
+  profiles:
+    active: dev # This tells Spring Boot to use the 'dev' profile by default

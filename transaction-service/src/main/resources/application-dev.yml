@@ -1,0 +1,21 @@
+server:
+  port: 8080 # This is the port for transaction-service in development
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transactiondb
+    username: postgres
+    password: your_secure_password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update # Good for development: updates schema automatically
+    show-sql: true # Show SQL queries in console for debugging
+    properties:
+      hibernate:
+        format_sql: true # Format SQL nicely in console
+
+app:
+  cors:
+    allowed-origins: http://localhost:5173,http://localhost:3000 # For  local React app

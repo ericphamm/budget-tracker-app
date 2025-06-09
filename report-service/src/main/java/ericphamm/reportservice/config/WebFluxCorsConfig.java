@@ -1,5 +1,6 @@
 package ericphamm.reportservice.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
@@ -14,10 +15,14 @@ import java.util.List;
 @Configuration
 public class WebFluxCorsConfig {
 
+    // ✅ Let Spring inject and parse the comma-separated string directly as a list
+    @Value("${app.cors.allowed-origins}")
+    private List<String> allowedOrigins;
+
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://budget-tracker-app-ericpham.vercel.app", "http://localhost:5173"));
+        config.setAllowedOrigins(allowedOrigins); // ✅ Cleaner and type-safe
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

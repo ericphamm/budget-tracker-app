@@ -1,0 +1,10 @@
+# DO NOT set server.port (Render assigns it dynamically)
+
+# For calling the deployed transaction-service
+transaction:
+  service:
+    url: https://transaction-service-ey5q.onrender.com
+
+app:
+  cors:
+    allowed-origins: https://budget-tracker-app-ericpham.vercel.app

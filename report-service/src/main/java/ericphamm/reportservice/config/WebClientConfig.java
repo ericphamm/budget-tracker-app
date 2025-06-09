@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     // Inject the environment variable
-    @Value("${TRANSACTION_SERVICE_URL}")
+    @Value("${transaction.service.url}")
     private String transactionServiceUrl;
 
     @Bean
