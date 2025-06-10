@@ -11,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -33,7 +32,7 @@ class TransactionControllerTest {
         Transaction mockTx = new Transaction();
         mockTx.setId(1L);
         mockTx.setDescription("Test");
-        mockTx.setAmount(BigDecimal.valueOf(100.0));
+        mockTx.setAmount(100.0);
 
         Mockito.when(transactionService.getAllSortedByTimestamp())
                 .thenReturn(List.of(mockTx));
@@ -50,7 +49,7 @@ class TransactionControllerTest {
         Transaction mockTx = new Transaction();
         mockTx.setId(1L);
         mockTx.setDescription("Created Tx");
-        mockTx.setAmount(BigDecimal.valueOf(123.45));
+        mockTx.setAmount(123.45);
 
         Mockito.when(transactionService.createTransaction(Mockito.any()))
                 .thenReturn(mockTx);

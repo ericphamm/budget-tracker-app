@@ -1,90 +1,88 @@
-# docker-compose.yml
-version: '3.8' # Specify the Docker Compose file format version
+version: '3.8'
 
 services:
   # PostgreSQL Database Service
   db:
-    image: postgres:15-alpine # Use a lightweight PostgreSQL image (version 15)
-    container_name: budget_tracker_db # Assign a custom name to the container
+    image: postgres:16-alpine # Using a lightweight PostgreSQL image
+    restart: always
     environment:
-      # These are standard PostgreSQL environment variables for initial setup
-      POSTGRES_DB: transactiondb # Sets the default database name
-      POSTGRES_USER: postgres # Sets the default database user
-      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD} # Reads password from the .env file for security
-    ports:
-      - "5432:5432" # Map container port 5432 to host port 5432 (optional, for local tools like pgAdmin)
+      POSTGRES_DB: transactiondb # Matches your application.properties
+      POSTGRES_USER: postgres # Matches your application.properties
+      POSTGRES_PASSWORD: your_secure_password # <--- ADD THIS LINE!
     volumes:
-      - db_data:/var/lib/postgresql/data # Mount a named volume for persistent database data
-      - ./transaction-service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/init.sql 
-    healthcheck: # Define a health check for the database service
-      test: ["CMD-SHELL", "pg_isready -U postgres -d transactiondb"] # Command to check if DB is ready
-      interval: 5s # Check every 5 seconds
-      timeout: 5s # Timeout after 5 seconds
-      retries: 5 # Retry 5 times before marking as unhealthy
+      - db_data:/var/lib/postgresql/data # Persistent storage for DB data
+      # If you have initial SQL scripts, you can mount them here:
+      # - ./db_init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432" # Expose DB port to host (optional, for local tools like pgAdmin)
     networks:
-      - app_network # Connect this service to the custom 'app_network'
+      - app_network
 
-  # Spring Boot Transaction Service
+  # Transaction Service
   transaction-service:
     build:
-      context: ./transaction-service # Specify the build context (path to your transaction-service directory)
-      dockerfile: Dockerfile # Specify the Dockerfile within the context
-    container_name: transaction-service # Assign a custom name to the container
+      context: ./transaction-service # Path to your transaction-service directory
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080" # Map container port 8080 to host port 8080
+      - "8080:8080" # Map host port 8080 to container port 8080
     environment:
-      # These environment variables are passed to your Spring Boot application
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} # Reads from the .env file (should be 'prod' for consistency)
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transactiondb # Use the Docker internal service name 'db' for communication
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME} # Reads from the .env file
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD} # Reads from the .env file
-      APP_CORS_ALLOWED_ORIGINS: "http://localhost:5173,https://budget-tracker-app-ericpham.vercel.app" #
+      # CRITICAL: Update database URL to use the 'db' service name
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/transactiondb
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: your_secure_password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update # Matches your application.properties
+      SPRING_JPA_SHOW_SQL: true
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: true
+      SERVER_PORT: 8080 # Explicitly set, though it's the default
     depends_on:
-      db:
-        condition: service_healthy # Ensure 'db' service is healthy before starting this service
+      - db # Ensures db starts before this microservice
     networks:
-      - app_network # Connect this service to the custom 'app_network'
+      - app_network
 
-  # Spring Boot Report Service
+  # Report Service
   report-service:
     build:
-      context: ./report-service # Specify the build context (path to your report-service directory)
-      dockerfile: Dockerfile # Specify the Dockerfile within the context
-    container_name: report-service # Assign a custom name to the container
+      context: ./report-service # Path to your report-service directory
+      dockerfile: Dockerfile
     ports:
-      - "8081:8081" # Map container port 8081 to host port 8081
+      - "8081:8081" # Map host port 8081 to container port 8081
     environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE} # Reads from the .env file (should be 'prod' for consistency)
-      TRANSACTION_SERVICE_URL: http://transaction-service:8080 # Use the Docker internal service name 'transaction-service' for communication
-      APP_CORS_ALLOWED_ORIGINS: "http://localhost:5173,https://budget-tracker-app-ericpham.vercel.app" 
-    depends_on: # Define service dependencies
-      transaction-service:
-        condition: service_started # Ensure 'transaction-service' is started before this service
+      SERVER_PORT: 8081 # Explicitly set, as per your application.properties
+      # CRITICAL: Update WebClientConfig.java to point to the 'transaction-service'
+      # baseUrl("http://transaction-service:8080")
+      # You might also want to pass this via environment variable if it's dynamic
+      # Example: TRANSACTION_SERVICE_URL: http://transaction-service:8080
+    depends_on:
+      - db # Also depends on DB if it directly or indirectly uses it
+      - transaction-service # Depends on transaction-service for its API calls
     networks:
-      - app_network # Connect this service to the custom 'app_network'
+      - app_network
 
-  # React Frontend Service
-  transaction-frontend:
+  # Frontend Application
+  frontend:
     build:
       context: ./transaction-frontend # Path to your transaction-frontend directory
-      dockerfile: Dockerfile # Specify the Dockerfile within the context
-    container_name: budget-tracker-frontend # Assign a custom name to the container
+      dockerfile: Dockerfile
     ports:
-      - "5173:80" # Map container port 5173 to host port 5173 (assuming your frontend serves on 5173)
+      - "5173:80" # Map host port 5173 (Vite dev default) to container's Nginx port 80
+      # You can change 5173 to 80 if you want it on host port 80: "80:80"
     environment:
       # These variables are for the client-side JavaScript, which runs in the browser.
-      # They point to the backend services exposed on the host machine via mapped ports.
+      # The browser will hit localhost:8080 and localhost:8081 on the host machine.
+      # So, no change needed here for browser-side calls if using mapped ports.
+      # If you were making calls from server-side rendering or a proxy,
+      # you'd use the internal Docker network names.
       VITE_TRANSACTION_SERVICE_API_URL: http://localhost:8080
       VITE_REPORT_SERVICE_API_URL: http://localhost:8081
-    depends_on: # Define service dependencies
-      - transaction-service # Frontend depends on backend microservices being up
+    depends_on:
+      - transaction-service # Frontend depends on microservices being up
       - report-service
     networks:
-      - app_network # Connect this service to the custom 'app_network'
+      - app_network
 
 volumes:
   db_data: # Declares the named volume for PostgreSQL data persistence
 
 networks:
-  app_network: # Defines a custom bridge network for all services to communicate with each other
-    driver: bridge # Specifies the network driver (default is 'bridge')
+  app_network: # Defines a custom bridge network for all services to communicate
+    driver: bridge

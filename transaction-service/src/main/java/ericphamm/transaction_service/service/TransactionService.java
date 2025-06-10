@@ -108,7 +108,7 @@ public class TransactionService {
     //for unit tests
     public double calculateTotalAmount(List<Transaction> transactions) {
         return transactions.stream()
-                .mapToDouble(t -> t.getAmount().doubleValue()) // convert BigDecimal to double
+                .mapToDouble(Transaction::getAmount)
                 .sum();
     }
 

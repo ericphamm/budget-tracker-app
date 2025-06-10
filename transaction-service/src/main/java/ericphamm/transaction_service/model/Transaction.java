@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,13 +16,12 @@ public class Transaction {
     private String description;
 
     @Positive(message = "Amount must be greater than 0")
-    private BigDecimal amount;
+    private double amount;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    @Column(name = "created_at", nullable = false) // Map 'timestamp' field to 'created_at' column in DB
     private LocalDateTime timestamp;
 
     public Transaction() {
@@ -47,11 +45,11 @@ public class Transaction {
         this.description = description;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
