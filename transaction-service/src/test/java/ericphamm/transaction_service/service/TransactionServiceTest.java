@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,10 +31,10 @@ public class TransactionServiceTest {
     void filterByAmountRange_shouldReturnFilteredTransactions() {
         // Arrange
         Transaction tx1 = new Transaction();
-        tx1.setAmount(100.0);
+        tx1.setAmount(BigDecimal.valueOf(100.0));
 
         Transaction tx2 = new Transaction();
-        tx2.setAmount(200.0);
+        tx2.setAmount(BigDecimal.valueOf(200.0));
 
         List<Transaction> mockResult = List.of(tx1, tx2);
         // Mock repository call
@@ -92,10 +93,10 @@ public class TransactionServiceTest {
 
         // Arrange: mock transaction data
         Transaction tx1 = new Transaction();
-        tx1.setAmount(100.0);
+        tx1.setAmount(BigDecimal.valueOf(100.0));
 
         Transaction tx2 = new Transaction();
-        tx2.setAmount(250.5);
+        tx2.setAmount(BigDecimal.valueOf(250.5));
 
         List<Transaction> mocTransactions = List.of(tx1, tx2);
 
