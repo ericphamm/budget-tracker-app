@@ -4,15 +4,16 @@ server:
 
 spring:
   datasource:
-    url: ${DATABASE_URL} # Render will provide this env var for Supabase pooler
-    username: ${DATABASE_USERNAME} # Render will provide this env var
-    password: ${DATABASE_PASSWORD} # Render will provide this env var
-    # driver-class-name is already in application.properties, no need to duplicate
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver # Keep this addition
 
   jpa:
     hibernate:
       ddl-auto: validate # Recommended for production: checks schema, does NOT make changes
       dialect: org.hibernate.dialect.PostgreSQLDialect # Explicitly set for prod
+    database-platform: org.hibernate.dialect.PostgreSQLDialect # <--- ADD THIS LINE
     show-sql: false # Do NOT show SQL queries in production logs
     properties:
       hibernate:
