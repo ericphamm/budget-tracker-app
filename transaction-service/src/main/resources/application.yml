@@ -1,3 +1,3 @@
 spring:
   profiles:
-    active: dev # This tells Spring Boot to use the 'dev' profile by default
+    default: dev
