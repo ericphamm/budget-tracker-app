@@ -3,7 +3,7 @@
 # For calling the deployed transaction-service
 transaction:
   service:
-    url: https://transaction-service-ey5q.onrender.com
+    url: ${TRANSACTION_SERVICE_URL}
 
 app:
   cors:
