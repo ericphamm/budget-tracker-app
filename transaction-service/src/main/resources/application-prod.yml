@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update # Recommended for production: checks schema, does NOT make changes
+      ddl-auto: validate # Recommended for production: checks schema, does NOT make changes
       dialect: org.hibernate.dialect.PostgreSQLDialect # Explicitly set for prod
     database-platform: org.hibernate.dialect.PostgreSQLDialect # <--- ADD THIS LINE
     show-sql: false # Do NOT show SQL queries in production logs
