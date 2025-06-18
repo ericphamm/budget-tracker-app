@@ -73,10 +73,9 @@ function TransactionModal({ transaction, onClose, onDelete, onEdit }) {
 					</h2>
 					<button
 						onClick={onClose}
-						className="h-12 py-2 px-6 bg-gray-300 hover:bg-gray-400 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center"
+						className="text-gray-500 hover:text-gray-700"
 					>
-						<X size={18} className="mr-1" />
-						Close
+						<X size={20} />
 					</button>
 				</div>
 
@@ -111,8 +110,8 @@ function TransactionModal({ transaction, onClose, onDelete, onEdit }) {
 										type="button"
 										onClick={() => setEditType("income")}
 										className={`flex-1 py-2 px-4 h-12 rounded-lg transition-colors ${editType === "income"
-											? "bg-green-100 text-green-700  border-2 border-green-500"
-											: "bg-gray-100 text-gray-700  border-2 border-transparent"
+											? "bg-green-100 text-green-700 border border-green-500"
+											: "bg-gray-100 text-gray-700 border border-transparent"
 											}`}
 									>
 										Income
@@ -122,8 +121,8 @@ function TransactionModal({ transaction, onClose, onDelete, onEdit }) {
 										type="button"
 										onClick={() => setEditType("expense")}
 										className={`flex-1 py-2 px-4 rounded-lg transition-colors ${editType === "expense"
-											? "bg-red-100  text-red-700  border-2 border-red-500"
-											: "bg-gray-100  text-gray-700  border-2 border-transparent"
+											? "bg-red-100  text-red-700 border border-red-500"
+											: "bg-gray-100  text-gray-700 border border-transparent"
 											}`}
 									>
 										Expense
@@ -143,17 +142,17 @@ function TransactionModal({ transaction, onClose, onDelete, onEdit }) {
 
 							<div className="flex flex-col sm:flex-row justify-end sm:space-x-2 space-y-2 sm:space-y-0 gap-2">
 								<button
+									onClick={handleSave}
+									className="h-12 py-2 px-8 bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center"
+								>
+									<Save size={18} className="mr-1" />
+									Save
+								</button>
+								<button
 									onClick={() => setIsEditing(false)}
 									className="h-12 py-2 px-8 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors"
 									>
 									Cancel
-								</button>
-								<button
-									onClick={handleSave}
-									className="h-12 py-2 px-8 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center"
-									>
-									<Save size={18} className="mr-1" />
-									Save
 								</button>
 							</div>
 						</div>
@@ -199,7 +198,7 @@ function TransactionModal({ transaction, onClose, onDelete, onEdit }) {
 										onDelete(transaction.id);
 										onClose();
 									}}
-									className="h-12 py-2 px-8 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 flex items-center justify-center"
+									className="h-12 py-2 px-8 bg-red-500 hover:bg-red-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 flex items-center justify-center"
 								>
 									<Trash2 size={18} className="mr-1" />
 									Delete
@@ -207,12 +206,21 @@ function TransactionModal({ transaction, onClose, onDelete, onEdit }) {
 
 								<button
 									onClick={() => setIsEditing(true)}
-									className="h-12 py-2 px-8 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center"
+									className="h-12 py-2 px-8 bg-blue-500 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center"
 								>
 									<Edit size={18} className="mr-1" />
 
 									Edit
 								</button>
+
+							
+									<button
+										onClick={onClose}
+										className="h-12 py-2 px-8 bg-gray-400 hover:bg-gray-500 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 flex items-center justify-center"
+									>
+										<X size={18} className="mr-1" />
+										Close
+									</button>
 
 							</div>
 						</div>
