@@ -24,6 +24,9 @@ public class Transaction {
 
     private LocalDateTime timestamp;
 
+    @Column(length = 500)
+    private String note;
+
     public Transaction() {
         this.timestamp = LocalDateTime.now();
     }
@@ -67,5 +70,13 @@ public class Transaction {
 
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Banknote, ShoppingCart } from 'lucide-react';
 
-function TransactionListItem({ tx, onDelete }) {
+function TransactionListItem({ tx, onClick }) {
 	if (!tx) return null;
 
 	const isIncome = tx.type === 'INCOME';
@@ -17,7 +17,9 @@ function TransactionListItem({ tx, onDelete }) {
 	}).format(tx.amount);
 
 	return (
-		<li className="flex items-center justify-between pt-4 pb-4 border-b last:border-b-0 border-gray-100">
+		<li onClick={() => onClick(tx)}
+		className="flex items-center justify-between pt-5 pb-5 px-2 transition duration-200 border-b last:border-b-0 border-gray-200 hover:bg-gray-50 hover:shadow-sm cursor-pointer"
+	>
 			{/* Left: Icon + Description + Date */}
 			<div className="flex items-center gap-4">
 				<div className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl ${bgColor}`}>
@@ -35,12 +37,6 @@ function TransactionListItem({ tx, onDelete }) {
 					{amountSign}
 					{formattedAmount}
 				</p>
-				<button
-					onClick={() => onDelete(tx.id)}
-					className="text-red-500 hover:text-red-700 text-xl"
-				>
-					✕
-				</button>
 			</div>
 		</li>
 	);

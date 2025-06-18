@@ -1,5 +1,6 @@
 import { useState } from "react";
 import TransactionForm from "./TransactionForm";
+import { Plus, Minus } from 'lucide-react';
 
 function AddTransaction({ onAdd }) {
 	const [showForm, setShowForm] = useState(false);
@@ -16,7 +17,7 @@ function AddTransaction({ onAdd }) {
 				</span>
 
 				<span className={`transform transition-transform duration-300 ${showForm ? 'rotate-45' : 'rotate-0'}`}>
-					+
+					<Plus size={22} />
 				</span>
 			</button>
 

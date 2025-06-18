@@ -7,6 +7,7 @@ import TransactionSummary from "./components/TransactionSummary";
 import TransactionFilter from "./components/TransactionFilter";
 import Pagination from "./components/Pagination";
 import TransactionSummarySkeleton from "./components/TransactionSummarySkeleton.jsx";
+import TransactionModal from "./components/TransactionModal";
 
 const BASE_URL = import.meta.env.VITE_TRANSACTION_SERVICE_API_URL || 'http://localhost:8080';
 const REPORT_BASE_URL = import.meta.env.VITE_REPORT_SERVICE_API_URL || 'http://localhost:8081';
@@ -34,6 +35,8 @@ function App() {
   const [totalPages, setTotalPages] = useState(0);
   const [showForm, setShowForm] = useState(false);
   const [isLoadingSummary, setIsLoadingSummary] = useState(true);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   // NEW STATE FOR SUMMARY
   const [summary, setSummary] = useState({
@@ -128,6 +131,33 @@ function App() {
     }
   };
 
+  const handleEditTransaction = async (updatedTransaction) => {
+    try {
+      const response = await fetch(`${BASE_URL}/transactions/${updatedTransaction.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedTransaction),
+      });
+
+      if (!response.ok) throw new Error("Failed to update transaction");
+
+      setSelectedTransaction(updatedTransaction);
+
+      await fetchTransactions();
+      await fetchSummary();
+
+      setShowModal(false);
+
+    } catch (err) {
+      console.error("Error updating transaction:", err);
+    }
+  };
+
+  const handleTransactionClick = (tx) => {
+    setSelectedTransaction(tx);
+    setShowModal(true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900 dark:text-white">
       <Header />
@@ -149,13 +179,25 @@ function App() {
           setMaxAmount={setMaxAmount}
           setPage={setPage}
         />
-        <TransactionList transactions={transactions} onDelete={handleDeleteTransaction} />
-        <Pagination
+        <TransactionList
+          transactions={transactions}
+          onTransactionClick={handleTransactionClick}
+        />
+         <Pagination
           currentPage={page}
           totalPages={totalPages}
           onPageChange={setPage}
         />
       </main>
+      {showModal && selectedTransaction && (
+        <TransactionModal
+          key={selectedTransaction.id}
+          transaction={selectedTransaction}
+          onClose={() => setShowModal(false)}
+          onDelete={handleDeleteTransaction}
+          onEdit={handleEditTransaction}
+        />
+      )}
     </div>
   );
 }

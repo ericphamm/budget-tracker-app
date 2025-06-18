@@ -9,6 +9,14 @@ function TransactionFilter({
 	setMaxAmount,
 	setPage
 }) {
+
+	const handleClearFilters = () => {
+		setFilterType('all');      // reset filterType to 'all'
+		setSearchText('');         // clear searchText
+		setMinAmount('');          // clear min amount
+		setMaxAmount('');          // clear max amount
+	  };
+
 	return (
 		<div className="bg-white shadow rounded-xl p-4 sm:p-6 mb-4">
 
@@ -16,6 +24,16 @@ function TransactionFilter({
 			<h2 className="mr-2 text-base sm:text-lg font-medium text-gray-800 flex items-center">
 				Filters
 			</h2>
+
+				{(filterType !== 'all' || searchText || minAmount || maxAmount) && (
+					<button
+						onClick={handleClearFilters}
+						className="text-sm text-blue-600 hover:underline"
+					>
+						Clear Filters
+					</button>
+				)}
+
 			</div>
 
 			{/* search field */}

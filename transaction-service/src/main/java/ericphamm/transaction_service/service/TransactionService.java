@@ -37,6 +37,8 @@ public class TransactionService {
 
         existing.setDescription(updatedTransaction.getDescription());
         existing.setAmount(updatedTransaction.getAmount());
+        existing.setType(updatedTransaction.getType());
+        existing.setNote(updatedTransaction.getNote());
         existing.setTimestamp(LocalDateTime.now());
 
         return transactionRepository.save(existing);
