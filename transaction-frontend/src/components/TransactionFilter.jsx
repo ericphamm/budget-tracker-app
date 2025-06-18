@@ -23,7 +23,7 @@ function TransactionFilter({
 	  };
 
 	return (
-		<div className="bg-white shadow rounded-xl p-4 sm:p-6 mb-4">
+		<div className="bg-white shadow rounded-xl p-6 sm:p-6 mb-4">
 
 			<div className="flex items-center justify-between mb-4">
 			<h2 className="mr-2 text-base sm:text-lg font-medium text-gray-800 flex items-center">
